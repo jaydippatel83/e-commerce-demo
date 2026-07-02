@@ -7,6 +7,7 @@ const productRoutes = require("./routes/productRoutes");
 const orderRoutes = require("./routes/orderRoutes");
 const cartRoutes = require("./routes/cartRoutes");
 const analyticsRoutes = require("./routes/analyticsRoutes");
+const paymentRoutes = require("./routes/paymentRoutes.js");
 
 connectDB();
 dotenv.config();
@@ -21,6 +22,7 @@ const API_PREFIX = "/api/v1";
 app.use(`${API_PREFIX}/auth`, authRoutes);
 app.use(`${API_PREFIX}/products`, productRoutes);
 app.use(`${API_PREFIX}/orders`, orderRoutes);
+app.use(`${API_PREFIX}/payment`, paymentRoutes);
 // app.use(`${API_PREFIX}/cart`, cartRoutes);
 // app.use(`${API_PREFIX}/analytics`, analyticsRoutes);
 
