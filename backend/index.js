@@ -20,9 +20,9 @@ const API_PREFIX = "/api/v1";
 
 app.use(`${API_PREFIX}/auth`, authRoutes);
 app.use(`${API_PREFIX}/products`, productRoutes);
-app.use(`${API_PREFIX}/orders`, orderRoutes);
-app.use(`${API_PREFIX}/cart`, cartRoutes);
-app.use(`${API_PREFIX}/analytics`, analyticsRoutes);
+// app.use(`${API_PREFIX}/orders`, orderRoutes);
+// app.use(`${API_PREFIX}/cart`, cartRoutes);
+// app.use(`${API_PREFIX}/analytics`, analyticsRoutes);
 
 app.get(`${API_PREFIX}/health`, (req, res) => {
   res.send("Hello World!");
