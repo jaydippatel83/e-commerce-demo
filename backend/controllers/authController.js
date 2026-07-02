@@ -20,10 +20,13 @@ const registerUser = async (req, res) => {
         }
         const salt = await bcrypt.genSalt(10);
         const hashPassword = await bcrypt.hash(password, salt);
-        const newUser = new user({ name, email, password: hashPassword });
-        await newUser.save();
 
         const otp = Math.floor(100000 + Math.random() * 900000).toString();
+        const otpExpiresAt = new Date(Date.now() + 10 * 60 * 1000); // expires in 10 minutes
+
+        const newUser = new user({ name, email, password: hashPassword, otp, otpExpiresAt });
+        await newUser.save();
+
         const msg = `Welcome to e-commerce ${name}! Thank you for registration with us. You OTP for e-commerce registration is ${otp}`;
         try {
             await sendEmail(email, "Welcome to E-commerce - Your OTP for registation", msg);
@@ -95,4 +98,34 @@ const getUserProfile = async (req, res) => {
     }
 }
 
-module.exports = { registerUser, loginUser, getUserProfile, getUsers };
+const verifyOTP = async (req, res) => {
+    const { otp } = req.body;
+    try {
+        const userId = req.user.id; 
+        const existingUser = await user.findById(userId); 
+        if (!existingUser) {
+            return res.status(404).json({ message: "User not found" });
+        }
+        if (existingUser.verified) {
+            return res.status(400).json({ message: "User already verified" });
+        }
+        if (!existingUser.otp || !existingUser.otpExpiresAt) {
+            return res.status(400).json({ message: "No OTP found. Please request a new one." });
+        }
+        if (existingUser.otpExpiresAt.getTime() < Date.now()) {
+            return res.status(400).json({ message: "OTP has expired. Please request a new one." });
+        }
+        if (existingUser.otp !== String(otp)) {
+            return res.status(400).json({ message: "Invalid OTP" });
+        }
+        existingUser.verified = true;
+        existingUser.otp = null;
+        existingUser.otpExpiresAt = null;
+        await existingUser.save();
+        res.status(200).json({ message: "OTP verified successfully" });
+    } catch (error) {
+        res.status(500).json({ message: "Server error" });
+    }
+}
+
+module.exports = { registerUser, loginUser, getUserProfile, getUsers, verifyOTP };
