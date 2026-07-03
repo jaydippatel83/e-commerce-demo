@@ -1,0 +1,29 @@
+{
+  "name": "e-commerce-demo",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "install": "cd backend && npm i && cd ../frontend && npm i",
+    "dev:server": "cd backend && npm run dev",
+    "dev:client": "cd frontend && npm start",
+    "dev": "concurrently \"npm run dev:server\" \"npm run dev:client\"",
+    "build": "cd frontend && npm run build",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jaydippatel83/e-commerce-demo.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/jaydippatel83/e-commerce-demo/issues"
+  },
+  "homepage": "https://github.com/jaydippatel83/e-commerce-demo#readme",
+  "dependencies": {
+    "concurrently": "^10.0.3"
+  }
+}
