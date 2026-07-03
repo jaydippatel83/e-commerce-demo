@@ -13,7 +13,10 @@ connectDB();
 dotenv.config();
 
 const app = express();
-app.use(cors());
+app.use(cors({
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  origin: ['http://localhost:3000',"*"], // Replace with your frontend URL
+}));
 app.use(express.json());
 
 const PORT = process.env.PORT || 5000;
@@ -24,7 +27,7 @@ app.use(`${API_PREFIX}/products`, productRoutes);
 app.use(`${API_PREFIX}/orders`, orderRoutes);
 app.use(`${API_PREFIX}/payment`, paymentRoutes);
 // app.use(`${API_PREFIX}/cart`, cartRoutes);
-// app.use(`${API_PREFIX}/analytics`, analyticsRoutes);
+app.use(`${API_PREFIX}/analytics`, analyticsRoutes);
 
 app.get(`${API_PREFIX}/health`, (req, res) => {
   res.send("Hello World!");
