@@ -1,4 +1,5 @@
 const express = require("express");
+const path = require("path");
 const dotenv = require("dotenv");
 const cors = require("cors");
 const connectDB = require("./config/db");
@@ -32,6 +33,20 @@ app.use(`${API_PREFIX}/analytics`, analyticsRoutes);
 app.get(`${API_PREFIX}/health`, (req, res) => {
   res.send("Hello World!");
 });
+
+// In production, serve the built React app and let client-side routing handle
+// any non-API path (SPA fallback). Uses a middleware (not app.get("*")) because
+// Express 5's path-to-regexp rejects a bare "*" wildcard.
+if (process.env.NODE_ENV === "production") {
+  const buildPath = path.join(__dirname, "../frontend/build");
+  app.use(express.static(buildPath));
+  app.use((req, res, next) => {
+    if (req.method === "GET" && !req.path.startsWith("/api")) {
+      return res.sendFile(path.join(buildPath, "index.html"));
+    }
+    next();
+  });
+}
 
 app.listen(PORT, () => {
   console.log(`Server is running on port http://localhost:${PORT}`);

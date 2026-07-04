@@ -4,11 +4,11 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "install": "npm i && cd backend && npm i && cd ../frontend && npm i",
+    "start": "cd backend && node index.js",
+    "build": "npm install --prefix backend && npm install --prefix frontend && npm run build --prefix frontend",
     "dev:server": "cd backend && npm run dev",
     "dev:client": "cd frontend && npm start",
     "dev": "concurrently \"npm run dev:server\" \"npm run dev:client\"",
-    "build": "cd frontend && npm run build",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -23,7 +23,7 @@
     "url": "https://github.com/jaydippatel83/e-commerce-demo/issues"
   },
   "homepage": "https://github.com/jaydippatel83/e-commerce-demo#readme",
-  "dependencies": {
+  "devDependencies": {
     "concurrently": "^10.0.3"
   }
 }
