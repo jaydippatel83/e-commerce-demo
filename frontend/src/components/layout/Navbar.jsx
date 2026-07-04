@@ -2,6 +2,7 @@ import { Link, Navigate, NavLink } from "react-router-dom";
 import logo from "../../assets/trendora-logo.svg";
 import { useContext } from "react";
 import { AuthContext } from "../../context/authContext";
+import { useSelector } from "react-redux";
  
 
 const navLinks = [
@@ -13,7 +14,7 @@ const navLinks = [
 
 function Navbar() {
     const { user, logout } = useContext(AuthContext);
-    // const cartItems = useSelector((state) => state.cart.items);
+    const cartItems = useSelector((state) => state.cart.cartItems);
 
     const handleLogout = () => {
         logout();
