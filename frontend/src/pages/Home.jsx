@@ -1,27 +1,10 @@
-import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import ProductCard from "../components/ProductCard";
+import { useProducts } from "../hooks/useProduct";
+import { getErrorMessage } from "../utils/error";
 
 function Home() {
-  const [isLoading, setIsLoading] = React.useState(true);
-  const [products, setProducts] = React.useState([]);
-
-  useEffect(() => {
-    const fetchProducts = async () => {
-      try {
-        const response = await fetch("http://localhost:5000/api/v1/products");
-        const data = await response.json();
-        // API may return an array or { products: [...] } — handle both
-        setProducts(Array.isArray(data) ? data : data.products || []);
-      } catch (error) {
-        console.error("Error fetching products:", error);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    fetchProducts();
-  }, []);
+  const { data: products = [], isLoading, isError, error } = useProducts();
 
   return (
     <>
@@ -44,6 +27,10 @@ function Home() {
 
         {isLoading ? (
           <p className="products__state">Loading products…</p>
+        ) : isError ? (
+          <p className="products__state">
+            Couldn’t load products — {getErrorMessage(error)}
+          </p>
         ) : products.length === 0 ? (
           <p className="products__state">No products found.</p>
         ) : (
