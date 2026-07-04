@@ -7,6 +7,9 @@ import { getErrorMessage } from "../utils/error";
 
 const LIMIT = 12;
 
+// Common adult sizes for the filter. Kids sizes are custom per product.
+const SIZE_FILTERS = ["S", "M", "L", "XL", "XXL"];
+
 const titleFor = (category) => {
   if (!category || category === "all") return "All products";
   return category.charAt(0).toUpperCase() + category.slice(1);
@@ -23,11 +26,14 @@ function ProductList() {
     setPage(1);
   }, [category, searchParams]);
 
+  const activeSize = searchParams.get("size") || "";
+
   const { data, isLoading, isError, error, isFetching } = useProducts({
     page,
     limit: LIMIT,
     category: category || "all",
     keyword: searchParams.get("keyword") || "",
+    size: activeSize,
   });
 
   const products = data?.products ?? [];
@@ -39,6 +45,13 @@ function ProductList() {
     const next = new URLSearchParams(searchParams);
     if (keyword.trim()) next.set("keyword", keyword.trim());
     else next.delete("keyword");
+    setSearchParams(next);
+  };
+
+  const toggleSize = (s) => {
+    const next = new URLSearchParams(searchParams);
+    if (activeSize === s) next.delete("size");
+    else next.set("size", s);
     setSearchParams(next);
   };
 
@@ -62,6 +75,24 @@ function ProductList() {
             Search
           </button>
         </form>
+      </div>
+
+      <div className="size-filter">
+        <span className="size-filter__label">Size:</span>
+        {SIZE_FILTERS.map((s) => (
+          <button
+            key={s}
+            className={`size-chip ${activeSize === s ? "is-active" : ""}`}
+            onClick={() => toggleSize(s)}
+          >
+            {s}
+          </button>
+        ))}
+        {activeSize && (
+          <button className="size-filter__clear" onClick={() => toggleSize(activeSize)}>
+            Clear
+          </button>
+        )}
       </div>
 
       {isLoading ? (

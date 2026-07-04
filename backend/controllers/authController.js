@@ -92,6 +92,7 @@ const getUserProfile = async (req, res) => {
             name: existingUser.name,
             email: existingUser.email,
             role: existingUser.role,
+            verified: existingUser.verified,
         });
     } catch (error) {
         res.status(500).json({ message: "Server error" });
@@ -128,4 +129,35 @@ const verifyOTP = async (req, res) => {
     }
 }
 
-module.exports = { registerUser, loginUser, getUserProfile, getUsers, verifyOTP };
+const updateUserProfile = async (req, res) => {
+    try {
+        const existingUser = await user.findById(req.user.id);
+        if (!existingUser) {
+            return res.status(404).json({ message: "User not found" });
+        }
+
+        const { name, password } = req.body;
+        if (name) existingUser.name = name;
+        if (password) {
+            const salt = await bcrypt.genSalt(10);
+            existingUser.password = await bcrypt.hash(password, salt);
+        }
+
+        await existingUser.save();
+
+        res.status(200).json({
+            _id: existingUser._id,
+            name: existingUser.name,
+            email: existingUser.email,
+            role: existingUser.role,
+            verified: existingUser.verified,
+            // fresh token so the client stays authenticated after the change
+            token: generateToken(existingUser._id),
+        });
+    } catch (error) {
+        console.error("updateUserProfile error:", error);
+        res.status(500).json({ message: "Server error" });
+    }
+};
+
+module.exports = { registerUser, loginUser, getUserProfile, updateUserProfile, getUsers, verifyOTP };

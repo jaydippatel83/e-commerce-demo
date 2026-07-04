@@ -25,6 +25,38 @@ const parseSizes = (raw) => {
     return [];
 };
 
+// Normalize variants (per-size stock). Accepts a JSON string or an array of
+// { size, stock }. Returns a clean array with numeric stock.
+const parseVariants = (raw) => {
+    let value = raw;
+    if (typeof raw === "string") {
+        try {
+            value = JSON.parse(raw);
+        } catch (_) {
+            return [];
+        }
+    }
+    if (!Array.isArray(value)) return [];
+    return value
+        .filter((v) => v && v.size)
+        .map((v) => ({
+            size: String(v.size).trim(),
+            stock: Math.max(0, parseInt(v.stock, 10) || 0),
+        }))
+        .filter((v) => v.size);
+};
+
+// Apply variants to a product doc: derive `sizes` and total `stock`.
+const applyVariants = (product, variants, fallbackStock) => {
+    if (variants && variants.length) {
+        product.variants = variants;
+        product.sizes = variants.map((v) => v.size);
+        product.stock = variants.reduce((sum, v) => sum + v.stock, 0);
+    } else if (fallbackStock !== undefined) {
+        product.stock = fallbackStock;
+    }
+};
+
 const getProducts = async (req, res) => {
     try {
         const page = Math.max(1, parseInt(req.query.page, 10) || 1);
@@ -75,7 +107,7 @@ const getProductById = async (req, res) => {
 
 const createProduct = async (req, res) => {
     try {
-        const { name, description, price, category, stock, sizes } = req.body;
+        const { name, description, price, category, stock, sizes, variants } = req.body;
         let imageUrl = "";
         if (req.file) {
             const result = await cloudinary.uploader.upload(req.file.path, {
@@ -83,7 +115,18 @@ const createProduct = async (req, res) => {
             });
             imageUrl = result.secure_url;
         }
-        const newProduct = new Product({ name, description, price, category, stock, imageUrl, sizes: parseSizes(sizes) });
+        const parsedVariants = parseVariants(variants);
+        const newProduct = new Product({
+            name,
+            description,
+            price,
+            category,
+            imageUrl,
+            stock: stock || 0,
+            sizes: parseSizes(sizes),
+        });
+        // per-size stock takes precedence: derives sizes + total stock
+        applyVariants(newProduct, parsedVariants, stock);
         const savedProduct = await newProduct.save();
         res.status(201).json(savedProduct);
     } catch (error) {
@@ -93,7 +136,7 @@ const createProduct = async (req, res) => {
 
 const updateProduct = async (req, res) => {
     try {
-        const { name, description, price, category, stock, sizes } = req.body;
+        const { name, description, price, category, stock, sizes, variants } = req.body;
         const product = await Product.findById(req.params.id);
         if (!product) {
             return res.status(404).json({ message: "Product not found" });
@@ -102,13 +145,18 @@ const updateProduct = async (req, res) => {
         product.description = description || product.description;
         product.price = price || product.price;
         product.category = category || product.category;
-        product.stock = stock || product.stock;
         if (sizes !== undefined) product.sizes = parseSizes(sizes);
         if (req.file) {
             const result = await cloudinary.uploader.upload(req.file.path, {
                 folder: "products",
             });
             product.imageUrl = result.secure_url;
+        }
+        if (variants !== undefined) {
+            // per-size stock present → derives sizes + total stock
+            applyVariants(product, parseVariants(variants), stock || product.stock);
+        } else if (stock !== undefined) {
+            product.stock = stock || product.stock;
         }
         const updatedProduct = await product.save();
         res.status(200).json(updatedProduct);
@@ -130,10 +178,49 @@ const deleteProduct = async (req, res) => {
     }
 };
 
+// Add a review to a product (one per user). Recomputes rating + numReviews.
+const createProductReview = async (req, res) => {
+    try {
+        const { rating, comment } = req.body;
+        if (!rating) {
+            return res.status(400).json({ message: "Rating is required" });
+        }
+        const product = await Product.findById(req.params.id);
+        if (!product) {
+            return res.status(404).json({ message: "Product not found" });
+        }
+
+        const alreadyReviewed = product.reviews.find(
+            (r) => r.user.toString() === req.user.id
+        );
+        if (alreadyReviewed) {
+            return res.status(400).json({ message: "You have already reviewed this product" });
+        }
+
+        product.reviews.push({
+            user: req.user.id,
+            name: req.user.name,
+            rating: Number(rating),
+            comment: comment || "",
+        });
+        product.numReviews = product.reviews.length;
+        product.rating =
+            product.reviews.reduce((sum, r) => sum + r.rating, 0) /
+            product.reviews.length;
+
+        await product.save();
+        res.status(201).json({ message: "Review added", reviews: product.reviews, rating: product.rating, numReviews: product.numReviews });
+    } catch (error) {
+        console.error("createProductReview error:", error);
+        res.status(500).json({ message: "Server error" });
+    }
+};
+
 module.exports = {
     getProducts,
     getProductById,
     createProduct,
     updateProduct,
     deleteProduct,
+    createProductReview,
 };

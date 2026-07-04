@@ -1280,4 +1280,326 @@ code {
     min-width: 0;
     flex: 1;
   }
+  .account__grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* navbar user as link */
+.navbar__user {
+  text-decoration: none;
+  cursor: pointer;
+}
+.navbar__user:hover {
+  color: #1a1a1a;
+}
+
+/* ---------- Checkbox ---------- */
+.checkbox {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 14px;
+  color: #4a4a4a;
+  cursor: pointer;
+}
+.checkbox input {
+  width: 16px;
+  height: 16px;
+  accent-color: #1a1a1a;
+}
+
+/* ---------- Variant editor (admin) ---------- */
+.variants {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.variant-row {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+.variant-row__size {
+  flex: 2;
+}
+.variant-row__stock {
+  flex: 1;
+}
+.variant-row input {
+  font-family: inherit;
+  font-size: 15px;
+  padding: 10px 12px;
+  border: 1px solid #ddd6ca;
+  border-radius: 9px;
+  outline: none;
+}
+.variant-row input:focus {
+  border-color: #b8935f;
+}
+.variant-row__remove {
+  border: none;
+  background: #fbeae7;
+  color: #c0392b;
+  width: 34px;
+  height: 34px;
+  border-radius: 8px;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+.variant-row__remove:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* ---------- Size filter (listing) ---------- */
+.size-filter {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 24px;
+}
+.size-filter__label {
+  font-size: 14px;
+  font-weight: 600;
+  color: #4a4a4a;
+}
+.size-filter__clear {
+  border: none;
+  background: none;
+  color: #b8935f;
+  font-weight: 600;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+/* ---------- PDP sizes/guide ---------- */
+.pdp__sizes-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+.pdp__sizes-head > span {
+  font-size: 14px;
+  font-weight: 600;
+  color: #4a4a4a;
+}
+.pdp__guide-toggle {
+  border: none;
+  background: none;
+  color: #b8935f;
+  font-weight: 600;
+  cursor: pointer;
+  font-size: 13px;
+  text-decoration: underline;
+}
+.size-chip:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  text-decoration: line-through;
+}
+.pdp__size-stock {
+  margin: 10px 0 0;
+  font-size: 13px;
+  color: #6f6a62;
+}
+.size-guide {
+  margin-top: 14px;
+  border: 1px solid #eee7dc;
+  border-radius: 10px;
+  padding: 14px;
+  background: #faf8f5;
+}
+.size-guide table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+.size-guide th,
+.size-guide td {
+  text-align: left;
+  padding: 6px 8px;
+  border-bottom: 1px solid #eee7dc;
+}
+.size-guide__note {
+  margin: 10px 0 0;
+  font-size: 12px;
+  color: #8a8478;
+}
+
+/* ---------- Reviews ---------- */
+.pdp__reviews-wrap {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 0 24px 64px;
+}
+.reviews__header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.reviews__title {
+  font-size: 22px;
+  color: #1a1a1a;
+  margin: 0;
+}
+.reviews__summary {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #6f6a62;
+  font-size: 14px;
+}
+.stars {
+  color: #e0a72e;
+  letter-spacing: 1px;
+}
+.stars__empty {
+  color: #d8d2c7;
+}
+.reviews__list {
+  list-style: none;
+  margin: 0 0 28px;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.review {
+  border: 1px solid #eee7dc;
+  border-radius: 12px;
+  padding: 16px;
+  background: #fff;
+}
+.review__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 6px;
+}
+.review__name {
+  font-weight: 600;
+  color: #1a1a1a;
+}
+.review__comment {
+  margin: 0;
+  color: #4a4a4a;
+  line-height: 1.5;
+}
+.review-form {
+  max-width: 480px;
+}
+.review-form h3 {
+  margin: 0 0 12px;
+  font-size: 17px;
+  color: #1a1a1a;
+}
+
+/* ---------- Admin order detail ---------- */
+.link-btn {
+  border: none;
+  background: none;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 14px;
+  color: #1a1a1a;
+  font-weight: 600;
+}
+.order-detail-row td {
+  background: #faf8f5;
+}
+.order-detail {
+  padding: 8px 4px;
+}
+.order-detail__item {
+  display: flex;
+  justify-content: space-between;
+  padding: 6px 0;
+  font-size: 14px;
+  border-bottom: 1px dashed #e6e0d5;
+}
+.order-detail__size {
+  margin-left: 10px;
+  font-size: 12px;
+}
+.order-detail__ship {
+  margin-top: 10px;
+  font-size: 13px;
+  color: #6f6a62;
+}
+
+/* ---------- Account page ---------- */
+.account__grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  align-items: start;
+}
+.account__card {
+  background: #fff;
+  border: 1px solid #eee7dc;
+  border-radius: 14px;
+  padding: 24px;
+}
+.account__card-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 18px;
+}
+.account__card-head h2 {
+  margin: 0;
+  font-size: 18px;
+  color: #1a1a1a;
+}
+.account__row {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 12px 0;
+  border-top: 1px solid #f0ebe1;
+  font-size: 15px;
+  color: #1a1a1a;
+}
+.account__row span:first-child {
+  color: #8a8478;
+  font-weight: 600;
+}
+.account__orders {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.account__orders li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px;
+  border: 1px solid #f0ebe1;
+  border-radius: 10px;
+}
+.account__order-id {
+  font-weight: 700;
+  color: #1a1a1a;
+  margin-right: 10px;
+}
+.account__order-date {
+  color: #8a8478;
+  font-size: 13px;
+}
+.account__order-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.account__order-total {
+  font-weight: 700;
 }

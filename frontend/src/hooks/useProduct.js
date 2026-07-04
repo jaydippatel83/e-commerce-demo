@@ -56,3 +56,12 @@ export function useDeleteProduct() {
     onSuccess: () => qc.invalidateQueries({ queryKey: ["products"] }),
   });
 }
+
+// Add a review — refresh that product so the new review + rating show
+export function useAddReview(id) {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: (review) => productApi.addReview(id, review),
+    onSuccess: () => qc.invalidateQueries({ queryKey: ["product", id] }),
+  });
+}

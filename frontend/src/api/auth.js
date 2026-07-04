@@ -16,4 +16,9 @@ export const authApi = {
 
   getUserProfile: (id) =>
     api.get(`/auth/user/${id}`).then((r) => r.data),
+
+  getMyProfile: () => api.get("/auth/profile").then((r) => r.data),
+
+  updateProfile: (data) =>
+    api.put("/auth/profile", data).then((r) => r.data),
 };

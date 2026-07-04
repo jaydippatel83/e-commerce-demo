@@ -36,4 +36,7 @@ export const productApi = {
       .then((r) => r.data),
 
   deleteProduct: (id) => api.delete(`/products/${id}`).then((r) => r.data),
+
+  addReview: (id, review) =>
+    api.post(`/products/${id}/reviews`, review).then((r) => r.data),
 };

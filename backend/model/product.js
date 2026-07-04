@@ -21,6 +21,13 @@ const productSchema = new mongoose.Schema({
         type: [String],
         default: [],
     },
+    // Per-size stock. When present, `sizes` and `stock` are derived from this.
+    variants: [
+        {
+            size: { type: String, required: true },
+            stock: { type: Number, required: true, min: 0, default: 0 },
+        },
+    ],
     imageUrl: {
         type: String,
         required: true,

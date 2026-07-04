@@ -49,7 +49,9 @@ function Navbar() {
         <div className="navbar__actions">
           {isAuthenticated && user ? (
             <>
-              <span className="navbar__user">Hello, {user.name}</span>
+              <Link to="/profile" className="navbar__user">
+                Hello, {user.name}
+              </Link>
               <Link to="/orders" className="navbar__action">
                 Orders
               </Link>
