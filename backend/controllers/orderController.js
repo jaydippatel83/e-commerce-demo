@@ -145,11 +145,10 @@ const updateOrder = async (req, res) => {
 
 const deleteOrder = async (req, res) => {
     try {
-        const existingOrder = await order.findById(req.params.id);
+        const existingOrder = await order.findByIdAndDelete(req.params.id);
         if (!existingOrder) {
             return res.status(404).json({ message: "Order not found" });
         }
-        await existingOrder.remove();
         res.status(200).json({ message: "Order deleted successfully" });
     } catch (error) {
         console.error("deleteOrder error:", error);

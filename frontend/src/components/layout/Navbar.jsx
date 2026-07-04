@@ -47,10 +47,18 @@ function Navbar() {
           {isAuthenticated && user ? (
             <>
               <span className="navbar__user">Hello, {user.name}</span>
+              <Link to="/orders" className="navbar__action">
+                Orders
+              </Link>
               {user.role === "admin" && (
-                <Link to="/admin/products" className="navbar__action">
-                  Admin
-                </Link>
+                <>
+                  <Link to="/admin/products" className="navbar__action">
+                    Products
+                  </Link>
+                  <Link to="/admin/orders" className="navbar__action">
+                    Orders admin
+                  </Link>
+                </>
               )}
               <button onClick={handleLogout} className="navbar__action">
                 Logout

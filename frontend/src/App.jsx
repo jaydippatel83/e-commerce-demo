@@ -7,8 +7,14 @@ import Register from "./pages/Register";
 import VerifyOTP from "./pages/VerifyOTP";
 import Users from "./pages/Users";
 import UserProfile from "./pages/UserProfile";
+import ProductDetail from "./pages/ProductDetail";
+import Cart from "./pages/Cart";
+import Checkout from "./pages/Checkout";
+import OrderSuccess from "./pages/OrderSuccess";
+import Orders from "./pages/Orders";
 import AdminProducts from "./pages/admin/AdminProducts";
 import ProductForm from "./pages/admin/ProductForm";
+import AdminOrders from "./pages/admin/AdminOrders";
 
 function App() {
   return (
@@ -20,6 +26,8 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
+          <Route path="/product/:id" element={<ProductDetail />} />
+          <Route path="/cart" element={<Cart />} />
 
           {/* Authenticated users */}
           <Route
@@ -27,6 +35,30 @@ function App() {
             element={
               <ProtectedRoute>
                 <VerifyOTP />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/checkout"
+            element={
+              <ProtectedRoute>
+                <Checkout />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/order-success"
+            element={
+              <ProtectedRoute>
+                <OrderSuccess />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/orders"
+            element={
+              <ProtectedRoute>
+                <Orders />
               </ProtectedRoute>
             }
           />
@@ -69,6 +101,14 @@ function App() {
             element={
               <ProtectedRoute adminOnly>
                 <ProductForm />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/admin/orders"
+            element={
+              <ProtectedRoute adminOnly>
+                <AdminOrders />
               </ProtectedRoute>
             }
           />

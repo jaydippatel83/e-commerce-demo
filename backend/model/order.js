@@ -38,10 +38,6 @@ const orderSchema = new mongoose.Schema({
         enum: ["Pending", "Processing", "Shipped", "Delivered", "Cancelled"],
         default: "Pending",
     },
-    totalAmount: {
-        type: Number,
-        required: true,
-    },
     createdAt: {
         type: Date,
         default: Date.now,

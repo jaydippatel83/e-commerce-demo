@@ -1,8 +1,11 @@
 import { Link } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { addToCart } from "../redux/cartSlice";
 
 function ProductCard({ product }) {
   const { _id, name, price, category, imageUrl, rating, stock } = product;
   const outOfStock = stock === 0;
+  const dispatch = useDispatch();
 
   return (
     <Link to={`/product/${_id}`} className="product-card">
@@ -35,7 +38,7 @@ function ProductCard({ product }) {
           disabled={outOfStock}
           onClick={(e) => {
             e.preventDefault(); // don't navigate when adding to cart
-            // TODO: dispatch add-to-cart
+            dispatch(addToCart({ _id, name, price, imageUrl }));
           }}
         >
           {outOfStock ? "Unavailable" : "Add to cart"}
