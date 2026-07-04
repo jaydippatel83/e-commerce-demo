@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "install": "cd backend && npm i && cd ../frontend && npm i",
+    "install": "npm i && cd backend && npm i && cd ../frontend && npm i",
     "dev:server": "cd backend && npm run dev",
     "dev:client": "cd frontend && npm start",
     "dev": "concurrently \"npm run dev:server\" \"npm run dev:client\"",
