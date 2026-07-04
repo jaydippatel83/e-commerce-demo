@@ -12,9 +12,11 @@ const createOrder = async (req, res) => {
     });
 
     const options = {
-      amount: amount * 100, // Amount in paise
-      currency: currency,
-      receipt:  crypto.randomBytes(10).toString("hex"), // Generate a random receipt ID
+      // Razorpay requires an integer amount in the smallest currency unit
+      // (paise). Round to avoid floating-point results like 12996.9999.
+      amount: Math.round(Number(amount) * 100),
+      currency: currency || "INR",
+      receipt: crypto.randomBytes(10).toString("hex"), // random receipt ID
     };
 
     const order = await instance.orders.create(options);

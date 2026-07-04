@@ -5,11 +5,18 @@ import { logout } from "../redux/authSlice";
 
 // Priority: explicit env var → relative same-origin in production
 // (backend serves the build) → localhost in local dev.
-const baseURL =
-  process.env.REACT_APP_API_URL ||
-  (process.env.NODE_ENV === "production"
-    ? "/api/v1"
-    : "http://localhost:5000/api/v1");
+// Guard: ignore a localhost env value in production (a stale Render var must
+// never send the live site to localhost).
+const isProd = process.env.NODE_ENV === "production";
+const envUrl = process.env.REACT_APP_API_URL;
+const envUrlUsable =
+  envUrl && !(isProd && /localhost|127\.0\.0\.1/.test(envUrl));
+
+const baseURL = envUrlUsable
+  ? envUrl
+  : isProd
+  ? "/api/v1"
+  : "http://localhost:5000/api/v1";
 
 export const api = axios.create({
   baseURL,
