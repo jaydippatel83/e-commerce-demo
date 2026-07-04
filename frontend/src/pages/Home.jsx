@@ -4,7 +4,9 @@ import { useProducts } from "../hooks/useProduct";
 import { getErrorMessage } from "../utils/error";
 
 function Home() {
-  const { data: products = [], isLoading, isError, error } = useProducts();
+  // just the newest 8 for the landing page
+  const { data, isLoading, isError, error } = useProducts({ page: 1, limit: 8 });
+  const products = data?.products ?? [];
 
   return (
     <>
@@ -23,7 +25,12 @@ function Home() {
       </section>
 
       <section className="products">
-        <h2 className="products__title">New arrivals</h2>
+        <div className="products__head">
+          <h2 className="products__title">New arrivals</h2>
+          <Link to="/products/all" className="products__viewall">
+            View all →
+          </Link>
+        </div>
 
         {isLoading ? (
           <p className="products__state">Loading products…</p>

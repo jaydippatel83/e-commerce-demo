@@ -14,7 +14,10 @@ const EMPTY = {
   price: "",
   category: "",
   stock: "",
+  sizes: "",
 };
+
+const CATEGORIES = ["Men", "Women", "Kids", "Accessories"];
 
 // Shared create/edit form. Edit mode when a :id route param is present.
 function ProductForm() {
@@ -38,6 +41,7 @@ function ProductForm() {
         price: existing.price ?? "",
         category: existing.category ?? "",
         stock: existing.stock ?? "",
+        sizes: (existing.sizes || []).join(", "),
       });
     }
   }, [existing]);
@@ -119,16 +123,36 @@ function ProductForm() {
           </label>
         </div>
 
-        <label className="form__field">
-          <span>Category</span>
-          <input
-            name="category"
-            value={form.category}
-            onChange={handleChange}
-            placeholder="Men, Women, Accessories…"
-            required
-          />
-        </label>
+        <div className="form__row">
+          <label className="form__field">
+            <span>Category</span>
+            <select
+              name="category"
+              value={form.category}
+              onChange={handleChange}
+              required
+            >
+              <option value="" disabled>
+                Select category…
+              </option>
+              {CATEGORIES.map((c) => (
+                <option key={c} value={c}>
+                  {c}
+                </option>
+              ))}
+            </select>
+          </label>
+
+          <label className="form__field">
+            <span>Sizes (comma-separated)</span>
+            <input
+              name="sizes"
+              value={form.sizes}
+              onChange={handleChange}
+              placeholder="S, M, L, XL  ·  or  4-5Y, 6-7Y"
+            />
+          </label>
+        </div>
 
         <label className="form__field">
           <span>Image {isEdit && "(leave empty to keep current)"}</span>

@@ -8,6 +8,7 @@ const navLinks = [
   { to: "/", label: "Home", end: true },
   { to: "/products/men", label: "Men" },
   { to: "/products/women", label: "Women" },
+  { to: "/products/kids", label: "Kids" },
   { to: "/products/accessories", label: "Accessories" },
 ];
 

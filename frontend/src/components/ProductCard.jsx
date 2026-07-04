@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 import { addToCart } from "../redux/cartSlice";
@@ -6,7 +6,20 @@ import { addToCart } from "../redux/cartSlice";
 function ProductCard({ product }) {
   const { _id, name, price, category, imageUrl, rating, stock } = product;
   const outOfStock = stock === 0;
+  const hasSizes = (product.sizes || []).length > 0;
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const handleAddClick = (e) => {
+    e.preventDefault(); // don't let the card's Link navigate
+    if (hasSizes) {
+      // can't choose a size on the card → go pick one on the detail page
+      navigate(`/product/${_id}`);
+      return;
+    }
+    dispatch(addToCart({ _id, name, price, imageUrl, size: "" }));
+    toast.success(`${name} added to cart`);
+  };
 
   return (
     <Link to={`/product/${_id}`} className="product-card">
@@ -37,13 +50,9 @@ function ProductCard({ product }) {
           type="button"
           className="product-card__btn"
           disabled={outOfStock}
-          onClick={(e) => {
-            e.preventDefault(); // don't navigate when adding to cart
-            dispatch(addToCart({ _id, name, price, imageUrl }));
-            toast.success(`${name} added to cart`);
-          }}
+          onClick={handleAddClick}
         >
-          {outOfStock ? "Unavailable" : "Add to cart"}
+          {outOfStock ? "Unavailable" : hasSizes ? "Select size" : "Add to cart"}
         </button>
       </div>
     </Link>

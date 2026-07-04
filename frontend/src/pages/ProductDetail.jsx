@@ -10,6 +10,7 @@ function ProductDetail() {
   const { id } = useParams();
   const { data: product, isLoading, isError, error } = useProduct(id);
   const [qty, setQty] = useState(1);
+  const [size, setSize] = useState("");
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -20,16 +21,24 @@ function ProductDetail() {
 
   const { _id, name, price, description, imageUrl, category, stock, rating } =
     product;
+  const sizes = product.sizes || [];
+  const hasSizes = sizes.length > 0;
   const outOfStock = stock === 0;
 
   const handleAdd = () => {
-    dispatch(addToCart({ _id, name, price, imageUrl, quantity: qty }));
+    if (hasSizes && !size) {
+      toast.error("Please select a size");
+      return false;
+    }
+    dispatch(
+      addToCart({ _id, name, price, imageUrl, size: size || "", quantity: qty })
+    );
     toast.success(`${name} added to cart`);
+    return true;
   };
 
   const handleBuyNow = () => {
-    handleAdd();
-    navigate("/checkout");
+    if (handleAdd()) navigate("/checkout");
   };
 
   return (
@@ -52,6 +61,24 @@ function ProductDetail() {
         <p className={`pdp__stock ${outOfStock ? "pdp__stock--out" : ""}`}>
           {outOfStock ? "Out of stock" : `${stock} in stock`}
         </p>
+
+        {hasSizes && (
+          <div className="pdp__sizes">
+            <span>Size</span>
+            <div className="size-options">
+              {sizes.map((s) => (
+                <button
+                  key={s}
+                  type="button"
+                  className={`size-chip ${size === s ? "is-active" : ""}`}
+                  onClick={() => setSize(s)}
+                >
+                  {s}
+                </button>
+              ))}
+            </div>
+          </div>
+        )}
 
         {!outOfStock && (
           <div className="pdp__qty">

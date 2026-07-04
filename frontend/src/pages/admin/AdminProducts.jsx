@@ -4,7 +4,9 @@ import { useProducts, useDeleteProduct } from "../../hooks/useProduct";
 import { getErrorMessage } from "../../utils/error";
 
 function AdminProducts() {
-  const { data: products = [], isLoading, isError, error } = useProducts();
+  // admin view: pull a large page so all products are listed
+  const { data, isLoading, isError, error } = useProducts({ limit: 100 });
+  const products = data?.products ?? [];
   const deleteProduct = useDeleteProduct();
 
   const handleDelete = (id, name) => {

@@ -1,12 +1,20 @@
 // src/hooks/useProduct.js
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import {
+  useQuery,
+  useMutation,
+  useQueryClient,
+  keepPreviousData,
+} from "@tanstack/react-query";
 import { productApi } from "../api/product";
 
-// List all products
-export function useProducts() {
+// List products (paginated + filterable).
+// params: { page, limit, category, keyword, size }
+// Returns { products, page, pages, total }.
+export function useProducts(params = {}) {
   return useQuery({
-    queryKey: ["products"],
-    queryFn: productApi.getProducts,
+    queryKey: ["products", params],
+    queryFn: () => productApi.getProducts(params),
+    placeholderData: keepPreviousData, // smooth page transitions (v5)
   });
 }
 

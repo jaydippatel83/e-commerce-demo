@@ -38,7 +38,7 @@ function Cart() {
       <div className="cart__grid">
         <div className="cart__items">
           {cartItems.map((item) => (
-            <div className="cart-item" key={item._id}>
+            <div className="cart-item" key={item.cartKey}>
               <img
                 className="cart-item__img"
                 src={item.imageUrl}
@@ -48,13 +48,16 @@ function Cart() {
                 <Link to={`/product/${item._id}`} className="cart-item__name">
                   {item.name}
                 </Link>
+                {item.size && (
+                  <span className="cart-item__size">Size: {item.size}</span>
+                )}
                 <span className="cart-item__price">
                   ${item.price.toFixed(2)}
                 </span>
               </div>
 
               <div className="qty-control">
-                <button onClick={() => dispatch(decreaseQty(item._id))}>
+                <button onClick={() => dispatch(decreaseQty(item.cartKey))}>
                   −
                 </button>
                 <span>{item.quantity}</span>
@@ -70,7 +73,7 @@ function Cart() {
               <button
                 className="cart-item__remove"
                 onClick={() => {
-                  dispatch(removeFromCart(item._id));
+                  dispatch(removeFromCart(item.cartKey));
                   toast.info(`${item.name} removed from cart`);
                 }}
                 aria-label="Remove"

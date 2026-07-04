@@ -48,7 +48,8 @@ function Orders() {
               {order.orderItems.map((item, i) => (
                 <li key={i}>
                   <span>
-                    {item.name} × {item.qty}
+                    {item.name}
+                    {item.size ? ` · ${item.size}` : ""} × {item.qty}
                   </span>
                   <span>${(item.price * item.qty).toFixed(2)}</span>
                 </li>

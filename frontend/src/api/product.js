@@ -14,7 +14,10 @@ const toFormData = (data) => {
 };
 
 export const productApi = {
-  getProducts: () => api.get("/products").then((r) => r.data),
+  // params: { page, limit, category, keyword, size }
+  // returns { products, page, pages, total }
+  getProducts: (params = {}) =>
+    api.get("/products", { params }).then((r) => r.data),
 
   getProduct: (id) => api.get(`/products/${id}`).then((r) => r.data),
 

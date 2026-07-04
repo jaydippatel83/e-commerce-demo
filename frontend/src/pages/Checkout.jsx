@@ -38,6 +38,7 @@ function Checkout() {
       name: i.name,
       price: i.price,
       qty: i.quantity,
+      size: i.size || undefined,
     }));
     await createOrder.mutateAsync({
       orderItems,
@@ -204,9 +205,10 @@ function Checkout() {
         <aside className="cart__summary">
           <h2>Order summary</h2>
           {cartItems.map((i) => (
-            <div className="cart__row" key={i._id}>
+            <div className="cart__row" key={i.cartKey}>
               <span>
-                {i.name} × {i.quantity}
+                {i.name}
+                {i.size ? ` (${i.size})` : ""} × {i.quantity}
               </span>
               <span>${(i.price * i.quantity).toFixed(2)}</span>
             </div>
