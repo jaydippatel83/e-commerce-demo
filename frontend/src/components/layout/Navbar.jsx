@@ -56,14 +56,9 @@ function Navbar() {
                 Orders
               </Link>
               {user.role === "admin" && (
-                <>
-                  <Link to="/admin/products" className="navbar__action">
-                    Products
-                  </Link>
-                  <Link to="/admin/orders" className="navbar__action">
-                    Orders admin
-                  </Link>
-                </>
+                <Link to="/admin" className="navbar__action">
+                  Admin
+                </Link>
               )}
               <button onClick={handleLogout} className="navbar__action">
                 Logout
