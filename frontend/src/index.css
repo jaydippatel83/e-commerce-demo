@@ -1285,6 +1285,136 @@ code {
   }
 }
 
+/* ---------- Content / info pages ---------- */
+.content {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 48px 24px 72px;
+  color: #3a3a3a;
+  line-height: 1.7;
+}
+.content__title {
+  font-size: 34px;
+  color: #1a1a1a;
+  margin: 0 0 8px;
+}
+.content__lead {
+  font-size: 18px;
+  color: #6f6a62;
+  margin: 0 0 28px;
+}
+.content__subtitle {
+  font-size: 20px;
+  color: #1a1a1a;
+  margin: 32px 0 12px;
+}
+.content__list {
+  padding-left: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.content a {
+  color: #b8935f;
+  font-weight: 600;
+}
+.content__note {
+  margin-top: 32px;
+  padding-top: 20px;
+  border-top: 1px solid #eee7dc;
+  color: #6f6a62;
+}
+.content__cols {
+  display: grid;
+  grid-template-columns: 1fr 1.2fr;
+  gap: 40px;
+  align-items: start;
+}
+.content__info p {
+  margin: 0 0 16px;
+}
+.content__form {
+  margin: 0;
+}
+
+/* Careers */
+.jobs {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.job {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  border: 1px solid #eee7dc;
+  border-radius: 12px;
+  padding: 20px;
+  background: #fff;
+  flex-wrap: wrap;
+}
+.job__title {
+  margin: 0 0 4px;
+  font-size: 17px;
+  color: #1a1a1a;
+}
+.job__desc {
+  margin: 0;
+  color: #6f6a62;
+  font-size: 14px;
+}
+.job__meta {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* FAQ accordion */
+.faqs {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.faq {
+  border: 1px solid #eee7dc;
+  border-radius: 12px;
+  background: #fff;
+  overflow: hidden;
+}
+.faq__q {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 18px 20px;
+  border: none;
+  background: none;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 16px;
+  font-weight: 600;
+  color: #1a1a1a;
+  text-align: left;
+}
+.faq__icon {
+  color: #b8935f;
+  font-size: 20px;
+  flex-shrink: 0;
+}
+.faq__a {
+  margin: 0;
+  padding: 0 20px 18px;
+  color: #4a4a4a;
+}
+
+@media (max-width: 720px) {
+  .content__cols {
+    grid-template-columns: 1fr;
+  }
+}
+
 /* ---------- Admin dashboard stats ---------- */
 .stats {
   display: grid;
