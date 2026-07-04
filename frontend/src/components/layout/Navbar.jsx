@@ -1,5 +1,6 @@
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
+import { toast } from "react-toastify";
 import logo from "../../assets/trendora-logo.svg";
 import { logout } from "../../redux/authSlice";
 
@@ -18,6 +19,7 @@ function Navbar() {
 
   const handleLogout = () => {
     dispatch(logout());
+    toast.info("You’ve been logged out");
     navigate("/login");
   };
 

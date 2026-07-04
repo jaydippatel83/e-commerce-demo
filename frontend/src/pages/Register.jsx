@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 import { useRegister } from "../hooks/useAuth";
 import { getErrorMessage } from "../utils/error";
 
@@ -15,7 +16,11 @@ function Register() {
     e.preventDefault();
     register.mutate(form, {
       // register returns a token → user is authed → send them to verify OTP
-      onSuccess: () => navigate("/verify-otp"),
+      onSuccess: () => {
+        toast.success("Account created! Check your email for the OTP.");
+        navigate("/verify-otp");
+      },
+      onError: (err) => toast.error(getErrorMessage(err)),
     });
   };
 

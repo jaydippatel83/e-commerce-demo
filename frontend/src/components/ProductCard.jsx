@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
+import { toast } from "react-toastify";
 import { addToCart } from "../redux/cartSlice";
 
 function ProductCard({ product }) {
@@ -39,6 +40,7 @@ function ProductCard({ product }) {
           onClick={(e) => {
             e.preventDefault(); // don't navigate when adding to cart
             dispatch(addToCart({ _id, name, price, imageUrl }));
+            toast.success(`${name} added to cart`);
           }}
         >
           {outOfStock ? "Unavailable" : "Add to cart"}

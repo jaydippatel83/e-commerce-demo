@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { toast } from "react-toastify";
 import { useProducts, useDeleteProduct } from "../../hooks/useProduct";
 import { getErrorMessage } from "../../utils/error";
 
@@ -8,7 +9,10 @@ function AdminProducts() {
 
   const handleDelete = (id, name) => {
     if (window.confirm(`Delete "${name}"? This cannot be undone.`)) {
-      deleteProduct.mutate(id);
+      deleteProduct.mutate(id, {
+        onSuccess: () => toast.success(`"${name}" deleted`),
+        onError: (err) => toast.error(getErrorMessage(err)),
+      });
     }
   };
 

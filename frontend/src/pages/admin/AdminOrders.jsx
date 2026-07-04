@@ -1,3 +1,4 @@
+import { toast } from "react-toastify";
 import { useOrders, useUpdateOrderStatus } from "../../hooks/useOrder";
 import { getErrorMessage } from "../../utils/error";
 
@@ -51,10 +52,13 @@ function AdminOrders() {
                     value={order.status}
                     disabled={updateStatus.isPending}
                     onChange={(e) =>
-                      updateStatus.mutate({
-                        id: order._id,
-                        status: e.target.value,
-                      })
+                      updateStatus.mutate(
+                        { id: order._id, status: e.target.value },
+                        {
+                          onSuccess: () => toast.success("Order status updated"),
+                          onError: (err) => toast.error(getErrorMessage(err)),
+                        }
+                      )
                     }
                   >
                     {STATUSES.map((s) => (

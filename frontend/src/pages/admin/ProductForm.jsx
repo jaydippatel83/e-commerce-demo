@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import { toast } from "react-toastify";
 import {
   useProduct,
   useCreateProduct,
@@ -48,12 +49,16 @@ function ProductForm() {
     e.preventDefault();
     // image is optional on edit (keeps existing image if omitted)
     const payload = { ...form, image: image || undefined };
-    const onSuccess = () => navigate("/admin/products");
+    const onSuccess = () => {
+      toast.success(isEdit ? "Product updated" : "Product created");
+      navigate("/admin/products");
+    };
+    const onError = (err) => toast.error(getErrorMessage(err));
 
     if (isEdit) {
-      updateProduct.mutate({ id, data: payload }, { onSuccess });
+      updateProduct.mutate({ id, data: payload }, { onSuccess, onError });
     } else {
-      createProduct.mutate(payload, { onSuccess });
+      createProduct.mutate(payload, { onSuccess, onError });
     }
   };
 

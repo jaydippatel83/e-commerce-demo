@@ -1,5 +1,6 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
+import { toast } from "react-toastify";
 import {
   addToCart,
   decreaseQty,
@@ -68,7 +69,10 @@ function Cart() {
 
               <button
                 className="cart-item__remove"
-                onClick={() => dispatch(removeFromCart(item._id))}
+                onClick={() => {
+                  dispatch(removeFromCart(item._id));
+                  toast.info(`${item.name} removed from cart`);
+                }}
                 aria-label="Remove"
               >
                 ✕

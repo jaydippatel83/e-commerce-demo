@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
+import { toast } from "react-toastify";
 import { useLogin } from "../hooks/useAuth";
 import { getErrorMessage } from "../utils/error";
 
@@ -18,7 +19,11 @@ function Login() {
   const handleSubmit = (e) => {
     e.preventDefault();
     login.mutate(form, {
-      onSuccess: () => navigate(from, { replace: true }),
+      onSuccess: (data) => {
+        toast.success(`Welcome back, ${data.name}!`);
+        navigate(from, { replace: true });
+      },
+      onError: (err) => toast.error(getErrorMessage(err)),
     });
   };
 

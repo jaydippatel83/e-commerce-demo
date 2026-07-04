@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 import { useVerifyOTP } from "../hooks/useAuth";
 import { getErrorMessage } from "../utils/error";
 
@@ -12,7 +13,13 @@ function VerifyOTP() {
     e.preventDefault();
     verifyOTP.mutate(
       { otp },
-      { onSuccess: () => setTimeout(() => navigate("/"), 1200) }
+      {
+        onSuccess: () => {
+          toast.success("Email verified successfully!");
+          setTimeout(() => navigate("/"), 1200);
+        },
+        onError: (err) => toast.error(getErrorMessage(err)),
+      }
     );
   };
 

@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
+import { toast } from "react-toastify";
 import { clearCart } from "../redux/cartSlice";
 import { useCreateOrder } from "../hooks/useOrder";
 import { paymentApi } from "../api/payment";
@@ -45,6 +46,7 @@ function Checkout() {
       paymentId,
     });
     dispatch(clearCart());
+    toast.success("Payment successful — your order is placed!");
     navigate("/order-success");
   };
 
@@ -104,7 +106,9 @@ function Checkout() {
 
       const rzp = new window.Razorpay(options);
       rzp.on("payment.failed", (resp) => {
-        setError(resp.error?.description || "Payment failed");
+        const msg = resp.error?.description || "Payment failed";
+        setError(msg);
+        toast.error(msg);
         setProcessing(false);
       });
       rzp.open();

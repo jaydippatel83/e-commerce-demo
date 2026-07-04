@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
+import { toast } from "react-toastify";
 import { useProduct } from "../hooks/useProduct";
 import { addToCart } from "../redux/cartSlice";
 import { getErrorMessage } from "../utils/error";
@@ -23,6 +24,7 @@ function ProductDetail() {
 
   const handleAdd = () => {
     dispatch(addToCart({ _id, name, price, imageUrl, quantity: qty }));
+    toast.success(`${name} added to cart`);
   };
 
   const handleBuyNow = () => {
