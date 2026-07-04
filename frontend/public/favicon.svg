@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="Trendora icon">
+  <title>Trendora icon</title>
+  <rect x="0" y="0" width="200" height="200" rx="44" fill="#111111" />
+  <!-- Hanger -->
+  <g fill="none" stroke="#e7c99a" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M100 62 q0 -13 -10 -13 a7 7 0 1 0 -7 7" />
+    <path d="M100 62 L62 92 Q54 99 64 99 L136 99 Q146 99 138 92 Z" />
+  </g>
+  <!-- Wordmark -->
+  <text x="100" y="138" text-anchor="middle"
+        font-family="Georgia, 'Times New Roman', serif"
+        font-size="20" letter-spacing="5" fill="#f5f0e8">TRENDORA</text>
+  <!-- Underscore accent -->
+  <line x1="88" y1="156" x2="112" y2="156" stroke="#e7c99a" stroke-width="2" stroke-linecap="round" />
+</svg>
